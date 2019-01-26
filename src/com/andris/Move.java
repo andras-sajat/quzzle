@@ -17,13 +17,13 @@ public class Move {
     }
 
     public String toString() {
-        return "Shape: "+(piece+1) + " to "+direction;
+        return "\nShape "+(piece+1) + " "+direction;
     }
 
     public enum DIRECTIONS {
-        DIRECTION_LEFT,
-        DIRECTION_RIGHT,
-        DIRECTION_UP,
-        DIRECTION_DOWN,
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
     }
 }

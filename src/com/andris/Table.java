@@ -18,7 +18,7 @@ public class Table {
         }
     }
 
-    static int distance(Table table1, String target) {
+    static int distanceFromTarget(Table table1, String target) {
         String rep1 = table1.stringCodeOfTable();
         int dist = 0;
         for (int i=0; i<rep1.length(); i++) {
@@ -94,17 +94,17 @@ public class Table {
     ArrayList<Move> possibleMoves(Quzzle quzzle) {
         ArrayList<Move> moves = new ArrayList<>();
         for(int id=0; id < 9; id++) {
-            if(canItMove(getShapesOnTheTable().get(id), DIRECTION_LEFT)){
-                moves.add(new Move(id, DIRECTION_LEFT));
+            if(canItMove(getShapesOnTheTable().get(id), LEFT)){
+                moves.add(new Move(id, LEFT));
             }
-            if(canItMove(getShapesOnTheTable().get(id), DIRECTION_RIGHT)){
-                moves.add(new Move(id, DIRECTION_RIGHT));
+            if(canItMove(getShapesOnTheTable().get(id), RIGHT)){
+                moves.add(new Move(id, RIGHT));
             }
-            if(canItMove(getShapesOnTheTable().get(id), DIRECTION_UP)){
-                moves.add(new Move(id, DIRECTION_UP));
+            if(canItMove(getShapesOnTheTable().get(id), UP)){
+                moves.add(new Move(id, UP));
             }
-            if(canItMove(getShapesOnTheTable().get(id), DIRECTION_DOWN)){
-                moves.add(new Move(id, DIRECTION_DOWN));
+            if(canItMove(getShapesOnTheTable().get(id), DOWN)){
+                moves.add(new Move(id, DOWN));
             }
         }
         return moves;
@@ -112,13 +112,13 @@ public class Table {
 
     private boolean canItMove(Shape s, Move.DIRECTIONS dir) {
         switch(dir) {
-            case DIRECTION_LEFT:
+            case LEFT:
                 if (s.getHPos() > 0 && layout.get(s.getVPos() * 4 + s.getHPos() - 1) == 0
                         && (s.getVSize() == 1 || layout.get(s.getVPos() * 4 + s.getHPos() + 3) == 0)) {
                     return true;
                 }
                 break;
-            case DIRECTION_RIGHT:
+            case RIGHT:
                 if(s.getHPos()<(4-s.getHSize())
                         && s.getVPos()*4+s.getHPos()+s.getHSize() < 20
                         && layout.get(s.getVPos()*4+s.getHPos()+s.getHSize()) == 0
@@ -127,13 +127,13 @@ public class Table {
                     return true;
                 }
                 break;
-            case DIRECTION_UP:
+            case UP:
                 if(s.getVPos()>0 && layout.get((s.getVPos()-1)*4+s.getHPos()) == 0
                         && (s.getHSize()==1 || layout.get((s.getVPos()-1)*4+s.getHPos()+1) == 0 )) {
                     return true;
                 }
                 break;
-            case DIRECTION_DOWN:
+            case DOWN:
                 if((s.getVPos()< 5 - s.getVSize()) && layout.get((s.getVPos()+s.getVSize())*4+s.getHPos()) == 0
                         && (s.getHSize()==1 || layout.get((s.getVPos()+s.getVSize())*4+s.getHPos()) == 0 )) {
                     return true;

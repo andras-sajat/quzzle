@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
@@ -50,56 +49,11 @@ public class Quzzle {
                 break;
             }
         }
-        System.out.println(solutionFound?
-                    "Solution found in "+(moveId+1)+" moves. There are "+solution.size()+" moves needed: \n"+solution :
+        System.out.println(solutionFound ?
+                    "Solution found after "+(moveId+1)+" iterations. The first solution found consists of "
+                            +solution.size()+" moves: \n"+solution
+                    :
                     "No solution could be found. Explored "+(moveId+1)+" moves.");
-    }
-
-    private Table makeMove(Table oldTable, Move move) {
-        moveId++;
-        Table table = oldTable.copyOf();
-        Shape s = table.getShapesOnTheTable().get(move.piece);
-        switch(move.direction) {
-            case DIRECTION_LEFT:
-                s.setHPos(s.getHPos()-1);
-                table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize(),0);
-                table.layout.set(s.getVPos()*4+s.getHPos(),s.getId());
-                if(s.getVSize()>1) {
-                    table.layout.set((s.getVPos()+1)*4+s.getHPos()+s.getHSize(),0);
-                    table.layout.set((s.getVPos()+1)*4+s.getHPos(),s.getId());
-                }
-                break;
-            case DIRECTION_RIGHT:
-                s.setHPos(s.getHPos()+1);
-                table.layout.set(s.getVPos()*4+s.getHPos()-1,0);
-                table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize()-1,s.getId());
-                if(s.getVSize()>1) {
-                    table.layout.set(s.getVPos()*4+s.getHPos()+3,0);
-                    table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize()+3,s.getId());
-                }
-                break;
-            case DIRECTION_UP:
-                s.setVPos(s.getVPos()-1);
-                table.layout.set(s.getVPos()*4+s.getHPos(), s.getId());
-                table.layout.set((s.getVPos()+s.getVSize())*4+s.getHPos(),0);
-                if(s.getHSize()>1) {
-                    table.layout.set(s.getVPos()*4+s.getHPos()+1,s.getId());
-                    table.layout.set((s.getVPos()+s.getVSize())*4+s.getHPos()+1,0);
-                }
-                break;
-            case DIRECTION_DOWN:
-                s.setVPos(s.getVPos() + 1);
-                table.layout.set((s.getVPos() - 1) * 4 + s.getHPos(), 0);
-                table.layout.set((s.getVPos() + s.getVSize() - 1) * 4 + s.getHPos(), s.getId());
-                if (s.getHSize() > 1) {
-                    table.layout.set((s.getVPos() - 1) * 4 + s.getHPos() + 1, 0);
-                    table.layout.set((s.getVPos() + s.getVSize() - 1) * 4 + s.getHPos() + 1, s.getId());
-                }
-                break;
-            default:
-        }
-        table.getShapesOnTheTable().set(move.piece, s);
-        return table;
     }
 
 
@@ -118,16 +72,14 @@ public class Quzzle {
         ArrayList<Move> listOfPossibleMoves = newTable.possibleMoves(this);
         depth++;
         boolean solutionFound = false;
-        ArrayList<Integer> dists = new ArrayList<>();
         if(depth<MAX_MOVES){
             for(Move actualMove: listOfPossibleMoves) {
-                actualMove.setDistance(Table.distance(makeMove(newTable, actualMove), representationOfTarget));
+                actualMove.setDistance(Table.distanceFromTarget(makeMove(newTable, actualMove), representationOfTarget));
             }
-            List<Move> li = listOfPossibleMoves
+            listOfPossibleMoves = new ArrayList<>(listOfPossibleMoves
                     .stream()
                     .sorted(Comparator.comparingInt(Move::getDistance))
-                    .collect(Collectors.toList());
-            listOfPossibleMoves = new ArrayList<>(li);
+                    .collect(Collectors.toList()));
             for(Move actualMove: listOfPossibleMoves) {
                 solutionFound = executeNextStep(newTable, actualMove, depth, newListOfMoves);
                 if(solutionFound) {
@@ -136,6 +88,53 @@ public class Quzzle {
             }
         }
         return solutionFound;
+    }
+
+    private Table makeMove(Table oldTable, Move move) {
+        moveId++;
+        Table table = oldTable.copyOf();
+        Shape s = table.getShapesOnTheTable().get(move.piece);
+        switch(move.direction) {
+            case LEFT:
+                s.setHPos(s.getHPos()-1);
+                table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize(),0);
+                table.layout.set(s.getVPos()*4+s.getHPos(),s.getId());
+                if(s.getVSize()>1) {
+                    table.layout.set((s.getVPos()+1)*4+s.getHPos()+s.getHSize(),0);
+                    table.layout.set((s.getVPos()+1)*4+s.getHPos(),s.getId());
+                }
+                break;
+            case RIGHT:
+                s.setHPos(s.getHPos()+1);
+                table.layout.set(s.getVPos()*4+s.getHPos()-1,0);
+                table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize()-1,s.getId());
+                if(s.getVSize()>1) {
+                    table.layout.set(s.getVPos()*4+s.getHPos()+3,0);
+                    table.layout.set(s.getVPos()*4+s.getHPos()+s.getHSize()+3,s.getId());
+                }
+                break;
+            case UP:
+                s.setVPos(s.getVPos()-1);
+                table.layout.set(s.getVPos()*4+s.getHPos(), s.getId());
+                table.layout.set((s.getVPos()+s.getVSize())*4+s.getHPos(),0);
+                if(s.getHSize()>1) {
+                    table.layout.set(s.getVPos()*4+s.getHPos()+1,s.getId());
+                    table.layout.set((s.getVPos()+s.getVSize())*4+s.getHPos()+1,0);
+                }
+                break;
+            case DOWN:
+                s.setVPos(s.getVPos() + 1);
+                table.layout.set((s.getVPos() - 1) * 4 + s.getHPos(), 0);
+                table.layout.set((s.getVPos() + s.getVSize() - 1) * 4 + s.getHPos(), s.getId());
+                if (s.getHSize() > 1) {
+                    table.layout.set((s.getVPos() - 1) * 4 + s.getHPos() + 1, 0);
+                    table.layout.set((s.getVPos() + s.getVSize() - 1) * 4 + s.getHPos() + 1, s.getId());
+                }
+                break;
+            default:
+        }
+        table.getShapesOnTheTable().set(move.piece, s);
+        return table;
     }
 
     private boolean weAlreadyVisited(Table actualTable) {
