@@ -45,3 +45,9 @@ Each line contains a shape to put on the table. A shape has the following attrib
 * The solution will appear on the standard output showing the moves needed. The move will tell you which piece (identified by the unique identifier from the setup) needs to move in which direction.
 
 Also in the repository there is the output of a successful run in the 'console-output.txt'.
+
+## Future tasks
+
+* Add unit tests for QA
+* Make input filenames as runtime parameters
+* Refactor to make more streamlined, efficient code
