@@ -4,7 +4,7 @@
 
 The task is to find a solution for getting from the initial state of the board to the target state abiding to the rules of the Quzzle game in maximum 90 moves.
 
-There are two many possible states of the board to explore all of them so my solution is to start from the initial state and explore all possible moves reachable in one move from there. Then do this inductive from the next steps too until a maximum of 90 steps. If the solution is not found until then, then return to an earlier state and try the other possibilities there.
+There are too many possible states of the board to explore all of them so my solution is to start from the initial state and explore all possible moves reachable in one move from there. Then do this inductive from the next steps too until a maximum of 90 steps. If the solution is not found until then, then return to an earlier state and try the other possibilities there.
 
 This solution would explore only those states of the board which are reachable in maximum 90 moves, which is much less..
 
@@ -19,7 +19,7 @@ I used 4 classes.
 * Shape - to represent a shape on the board
 * Move - to represent a move on the table
 
-The initial and target setup of the table is stored in two text files in the root folderÉ
+The initial and target setup of the table is stored in two text files in the root folder:
 * 'original_starting_state.txt' contains the setup of the starting state
 * 'original_target.txt' contains the setup of the target state
 
@@ -27,7 +27,7 @@ The format of these files is the following:
 Each line contains a shape to put on the table. A shape has the following attributes separated by a space:
 - the vertical size of the shape (1-2)
 - the horizontal size of the shape (1-2)
-- the type of the shape represented by an integer (1: 2*2 shape, 2: 2*1 shape, 3: 1*2 shape, 4: 1*1 shape)
+- the type of the shape represented by an integer (1: 2x2 shape, 2: 2x1 shape, 3: 1x2 shape, 4: 1x1 shape)
 - the unique identifier of the shape (1-9)
 - the horizontal position of the shape on the table (0 to 3)
 - the vertical position of the shape on the table (0 to 4)
@@ -42,7 +42,7 @@ Each line contains a shape to put on the table. A shape has the following attrib
     `` 
     java -cp quzzle.jar com.andris.Quzzle
     ``
-* The solution will appear on the standard output showing the moves needed. The move will tell you which piece (identified by the unique identifier from the setup) needs to move in which direction.
+* The solution will appear on the standard output showing the moves needed. The moves will tell you which piece (identified by the unique identifier from the setup) needs to move in which direction.
 
 Also in the repository there is the output of a successful run in the 'console-output.txt'.
 
