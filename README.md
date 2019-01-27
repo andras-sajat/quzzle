@@ -36,7 +36,7 @@ Each line contains a shape to put on the table. A shape has the following attrib
 ## Running the application
 
 * You will need to setup Java 1.8 JRE on the machine where you want to use the application.
-* You will need to download the repository of the application from [Bitbucket](https://github.com/andras-sajat/quzzle/archive/master.zip)
+* You will need to download the repository of the application from [GitHub](https://github.com/andras-sajat/quzzle/archive/master.zip)
 * After extracting it on your local machine, go the folder where you extracted it, and change into quzzle-master folder.
 * From there run: 
     `` 
